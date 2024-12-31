@@ -1,20 +1,24 @@
 package model;
 
-import lombok.AllArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+
 public class ATM {
     private Sdk sdk;
-    private List<Integer> denominationList = new ArrayList<>(List.of(5000, 1000, 500, 100, 50));
+    private List<Integer> denominationList;
+
+    public ATM(Sdk sdk) {
+        this.sdk = sdk;
+        denominationList = new ArrayList<>(List.of(5000, 1000, 500, 100, 50));
+    }
 
     /**
      * Метод для выдачи запрашиваемого количества купюр
+     *
      * @param amount
      * @return
      */
@@ -29,7 +33,9 @@ public class ATM {
 
         Map<Integer, Integer> toDispense = getIntegerIntegerMap(amount, mapCountOfDenominations);
 
-
+        if (toDispense.size() == 0) {
+            return false;
+        }
         giveOutMoney(toDispense);
         return true;
     }
